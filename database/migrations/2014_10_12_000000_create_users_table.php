@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
         
         Schema::create('user_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
+            $table->string('type')->unique();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -51,7 +51,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('user_type_id')->unsigned()->index();
+            $table->integer('user_type_id')->unsigned()->index()->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -60,7 +60,7 @@ class CreateUsersTable extends Migration
         });
 
         Schema::table('users', function($table) {
-            $table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('cascade');
+            $table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('set null');
         });
 
         // Create the first user for login

@@ -39,4 +39,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\UserType');
     }
+
+    /**
+     * Get the articles of the user.
+     */
+    public function articles()
+    {
+        return $this->hasMany('App\Models\Article');
+    }
 }
