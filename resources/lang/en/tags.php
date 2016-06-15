@@ -2,5 +2,4 @@
 
 return [
     'name' => 'Name',
-    'description' => 'Description',
 ];

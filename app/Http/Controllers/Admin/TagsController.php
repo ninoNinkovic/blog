@@ -2,86 +2,107 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Http\Requests\TagRequest;
 use App\Http\Controllers\Controller;
+
+use App\Models\Tag;
+use Illuminate\Database\QueryException as Exception;
+use Carbon\Carbon;
+use Session;
 
 class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function index()
     {
-        //
+        $tags = Tag::paginate(15);
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
-        return View('admin.tags.create');
+        return view('admin.tags.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
-        //
-    }
+        try {
+            $data = $request->only('name');
+            Tag::create($data);
+            Session::flash('flash_message', 'Tag added!');
+            return redirect('admin/tags');
+        } catch (Exception $e) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+            return redirect()->back()
+                ->withErrors($e->getMessage())
+                ->withInput();
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Tag  $tag
+     *
+     * @return void
      */
-    public function edit($id)
+    public function edit(Tag $tag)
     {
-        //
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Tag  $tag
+     *
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function update(Tag $tag, TagRequest $request)
     {
-        //
+        try {
+            $data = $request->only('name');
+            $tag->update($data);
+            Session::flash('flash_message', 'Tag updated!');
+            return redirect('admin/tags');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withErrors($e->getMessage())
+                ->withInput();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Tag  $tag
+     *
+     * @return void
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        try {
+            $tag->delete();
+            Session::flash('flash_message', 'Subject deleted!');
+            return redirect('admin/tags');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withErrors($e->getMessage());
+        }
     }
 }

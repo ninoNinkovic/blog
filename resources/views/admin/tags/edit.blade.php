@@ -1,12 +1,21 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
+
+{{-- Page title --}}
+@section('title')
+    Edit {{ $tag->name }}
+    @parent
+@stop
 
 @section('content')
 <div class="container">
 
-    <h1>Create New Tag</h1>
-    <hr/>
+    <h1>Edit {{ $tag->name }}</h1>
 
-    {!! Form::open(['url' => '/admin/tags', 'class' => 'form-horizontal']) !!}
+    {!! Form::model($tag, [
+        'method' => 'PATCH',
+        'url' => ['/admin/tags', $tag->id],
+        'class' => 'form-horizontal'
+    ]) !!}
 
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
                 {!! Form::label('name', trans('tags.name'), ['class' => 'col-sm-3 control-label']) !!}
@@ -19,7 +28,7 @@
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Create', ['class' => 'btn btn-primary form-control']) !!}
+            {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
         </div>
     </div>
     {!! Form::close() !!}

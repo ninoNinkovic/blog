@@ -15,6 +15,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
 
     //--------Route Resource Model Binding-----------------
     Route::model('subjects', 'App\Models\Subject');
+    Route::model('tags', 'App\Models\Tag');
+    Route::model('users', 'App\Models\User');
 
     Route::get('login', 'AuthController@login');
     Route::get('logout', 'AuthController@logout');
@@ -28,12 +30,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
             'show'
         ]]);
 
-        Route::resource('tags', 'TagsController');
+        Route::resource('tags', 'TagsController', ['except' => [
+            'show'
+        ]]);
 
-        /*Route::get('dashboard', ['as' => 'dashboard', function () {
-            // Route named "admin::dashboard"
-        }]);*/
-
+        Route::resource('users', 'UsersController');
         
     });
 });

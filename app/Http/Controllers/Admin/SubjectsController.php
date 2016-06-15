@@ -21,7 +21,6 @@ class SubjectsController extends Controller
     public function index()
     {
         $subjects = Subject::paginate(15);
-
         return view('admin.subjects.index', compact('subjects'));
     }
 
@@ -43,12 +42,10 @@ class SubjectsController extends Controller
     public function store(SubjectRequest $request)
     {
         try {
-
             $data = $request->only(['name', 'description']);
             Subject::create($data);
             Session::flash('flash_message', 'Subject added!');
             return redirect('admin/subjects');
-
         } catch (Exception $e) {
 
             return redirect()->back()
@@ -60,7 +57,7 @@ class SubjectsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Subject $subject
      *
      * @return void
      */
@@ -72,21 +69,18 @@ class SubjectsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  Subject $subject
      *
      * @return void
      */
     public function update(Subject $subject, SubjectRequest $request)
     {
         try {
-
             $data = $request->only(['name', 'description']);
             $subject->update($data);
             Session::flash('flash_message', 'Subject updated!');
             return redirect('admin/subjects');
-
         } catch (Exception $e) {
-
             return redirect()->back()
                 ->withErrors($e->getMessage())
                 ->withInput();
@@ -96,20 +90,18 @@ class SubjectsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Subject $subject
      *
      * @return void
      */
     public function destroy(Subject $subject)
     {
         try {
-
             $subject->delete();
             Session::flash('flash_message', 'Subject deleted!');
             return redirect('admin/subjects');
 
         } catch (Exception $e) {
-
             return redirect()->back()
                 ->withErrors($e->getMessage());
         }
