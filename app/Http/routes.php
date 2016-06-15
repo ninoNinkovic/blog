@@ -13,6 +13,9 @@
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], function () {
 
+    //--------Route Resource Model Binding-----------------
+    Route::model('subjects', 'App\Models\Subject');
+
     Route::get('login', 'AuthController@login');
     Route::get('logout', 'AuthController@logout');
 
@@ -21,25 +24,22 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
     Route::group(['middleware' => 'auth'], function(){
         Route::get('/', 'WelcomeController@index');
 
+        Route::resource('subjects', 'SubjectsController', ['except' => [
+            'show'
+        ]]);
+
         Route::resource('tags', 'TagsController');
-        /*
-        Route::get('dashboard', ['as' => 'dashboard', function () {
+
+        /*Route::get('dashboard', ['as' => 'dashboard', function () {
             // Route named "admin::dashboard"
-        }]);
+        }]);*/
 
-
-        Route::resource('article', 'ArticleController');
-        Route::resource('gallery', 'GalleryController');
-        Route::resource('user', 'UserController');
-*/
-        // ...
+        
     });
 });
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 
 Route::get('/home', 'HomeController@index');

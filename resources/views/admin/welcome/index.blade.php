@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.default')
 
 {{-- Page title --}}
 @section('title')
@@ -105,6 +105,7 @@
         </div>
     </div>
 </div>
+<div class="clearfix"></div>
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-8">
