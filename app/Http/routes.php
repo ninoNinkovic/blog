@@ -17,12 +17,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
     Route::model('subjects', 'App\Models\Subject');
     Route::model('tags', 'App\Models\Tag');
     Route::model('users', 'App\Models\User');
+    Route::model('articles', 'App\Models\Article');
 
+    //--------Route Group without Middleware: Auth-----------------
     Route::get('login', 'AuthController@login');
     Route::get('logout', 'AuthController@logout');
 
     Route::auth();
 
+    //--------Route Group with Middleware: Auth-----------------
     Route::group(['middleware' => 'auth'], function(){
         Route::get('/', 'WelcomeController@index');
 
@@ -35,6 +38,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
         ]]);
 
         Route::resource('users', 'UsersController');
+
+        Route::resource('articles', 'ArticlesController');
         
     });
 });

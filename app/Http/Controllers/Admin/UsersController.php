@@ -114,11 +114,6 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->id == 1) {
-            return redirect()->back()
-                ->withErrors('Root user can not be deleted.');
-        }
-
         try {
             $user->delete();
             Session::flash('flash_message', 'User deleted!');

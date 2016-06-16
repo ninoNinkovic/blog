@@ -74,6 +74,8 @@ class CreateUsersTable extends Migration
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
+        echo 'Admin User created with username admin@admin.com and password 123456';
+
         DB::commit();
     }
 

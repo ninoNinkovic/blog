@@ -54,6 +54,7 @@
                     <li><a href="{{ url('/admin/subjects') }}">Subject</a></li>
                     <li><a href="{{ url('/admin/tags') }}">Tag</a></li>
                     <li><a href="{{ url('/admin/users') }}">User</a></li>
+                    <li><a href="{{ url('/admin/articles') }}">Article</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
