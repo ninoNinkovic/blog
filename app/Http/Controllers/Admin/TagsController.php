@@ -88,13 +88,62 @@ class TagsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Temporarily Remove the specified resource from storage.
      *
      * @param  Tag  $tag
      *
      * @return void
      */
     public function destroy(Tag $tag)
+    {
+        try {
+            $tag->delete();
+            Session::flash('flash_message', 'Tag deleted!');
+            return redirect('admin/tags');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withErrors($e->getMessage());
+        }
+    }
+
+    /**
+     * Display a listing of the trash resource.
+     *
+     * @return void
+     */
+    public function trash()
+    {
+        $tags = Tag::onlyTrashed()->paginate(15);
+        return view('admin.tags.trash', compact('tags'));
+    }
+
+    /**
+     * Restore the specified resource from trash.
+     *
+     * @param  Tag  $tag
+     *
+     * @return void
+     */
+    public function restore(Tag $tag)
+    {
+        try {
+            $tag->delete();
+            Session::flash('flash_message', 'Tag deleted!');
+            return redirect('admin/tags');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withErrors($e->getMessage());
+        }
+    }
+
+    /**
+     * Permanently Remove the specified resource from storage.
+     *
+     * @param  Tag  $tag
+     *
+     * @return void
+     */
+    public function clean(Tag $tag)
     {
         try {
             $tag->delete();

@@ -37,9 +37,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
             'show'
         ]]);
 
-        Route::resource('users', 'UsersController');
-
         Route::resource('articles', 'ArticlesController');
+
+        //--------Route Group with some Administrative Privileges-----------------
+        Route::group(['middleware' => 'administrator'], function()
+        {
+            Route::resource('users', 'UsersController');
+
+            Route::get('tags/trash', 'TagsController@trash');
+        });
         
     });
 });

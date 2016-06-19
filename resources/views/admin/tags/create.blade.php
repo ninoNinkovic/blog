@@ -1,36 +1,36 @@
 @extends('admin.layouts.app')
 
+{{-- Page title --}}
+@section('title', 'Create New Tag')
+
 @section('content')
-<div class="container">
 
-    <h1>Create New Tag</h1>
-    <hr/>
-
-    {!! Form::open(['url' => '/admin/tags', 'class' => 'form-horizontal']) !!}
-
-                <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
-                {!! Form::label('name', trans('tags.name'), ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-
-
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Create', ['class' => 'btn btn-primary form-control']) !!}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Create New Tag</h1>
         </div>
+        <!-- /.col-lg-12 -->
     </div>
-    {!! Form::close() !!}
 
-    @if ($errors->any())
-        <ul class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Tag Form
+                </div>
+                <div class="panel-body">
+                    {!! Form::open(['url' => '/admin/tags', 'class' => 'form-horizontal']) !!}
 
-</div>
+                    @include('admin.tags.form')
+
+                    {!! Form::close() !!}
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
 @endsection

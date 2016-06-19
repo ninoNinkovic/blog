@@ -1,10 +1,7 @@
-@extends('admin.layouts.default')
+@extends('admin.layouts.app')
 
 {{-- Page title --}}
-@section('title')
-    Dashboard
-    @parent
-@stop
+@section('title', 'Dashboard')
 
 {{-- Page content --}}
 @section('content')
@@ -550,3 +547,17 @@
 <!-- /.row -->
 
 @stop
+
+@push('css')
+{{-- Timeline CSS --}}
+<link href="{{ asset('sb-admin/dist/css/timeline.css') }}" rel="stylesheet">
+{{-- Morris Charts CSS --}}
+<link href="{{ asset('sb-admin/bower_components/morrisjs/morris.css') }}" rel="stylesheet">
+@endpush
+
+@push('scripts')
+{{-- Morris Charts JavaScript --}}
+<script src="{{ asset('sb-admin/bower_components/raphael/raphael-min.js') }}"></script>
+<script src="{{ asset('sb-admin/bower_components/morrisjs/morris.min.js') }}"></script>
+<script src="{{ asset('sb-admin/js/morris-data.js') }}"></script>
+@endpush

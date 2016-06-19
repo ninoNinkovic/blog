@@ -5,8 +5,7 @@
 
 @section('content')
 
-    <h1>Tags <a href="{{ url('/admin/tags/create') }}" class="btn btn-primary btn-xs" title="Add New Tag"><span
-                    class="glyphicon glyphicon-plus" aria-hidden="true"/></a></h1>
+    <h1>Deleted Tags</h1>
     <div class="table">
         <table class="table table-bordered table-striped table-hover">
             <thead>
