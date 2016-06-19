@@ -20,7 +20,7 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = Tag::paginate(15);
+        $tags = Tag::all();
         return view('admin.tags.index', compact('tags'));
     }
 
@@ -44,7 +44,7 @@ class TagsController extends Controller
         try {
             $data = $request->only('name');
             Tag::create($data);
-            Session::flash('flash_message', 'Tag added!');
+            Session::flash('message', 'Tag added!');
             return redirect('admin/tags');
         } catch (Exception $e) {
 
@@ -78,7 +78,7 @@ class TagsController extends Controller
         try {
             $data = $request->only('name');
             $tag->update($data);
-            Session::flash('flash_message', 'Tag updated!');
+            Session::flash('message', 'Tag updated!');
             return redirect('admin/tags');
         } catch (Exception $e) {
             return redirect()->back()
@@ -98,7 +98,8 @@ class TagsController extends Controller
     {
         try {
             $tag->delete();
-            Session::flash('flash_message', 'Tag deleted!');
+            $name = $tag->name;
+            Session::flash('message', $name . ' deleted!');
             return redirect('admin/tags');
         } catch (Exception $e) {
             return redirect()->back()
@@ -113,23 +114,25 @@ class TagsController extends Controller
      */
     public function trash()
     {
-        $tags = Tag::onlyTrashed()->paginate(15);
+        $tags = Tag::onlyTrashed()->get();
         return view('admin.tags.trash', compact('tags'));
     }
 
     /**
      * Restore the specified resource from trash.
      *
-     * @param  Tag  $tag
+     * @param  int  $id
      *
      * @return void
      */
-    public function restore(Tag $tag)
+    public function restore($id)
     {
+        $tag = Tag::withTrashed()->where('id', $id)->firstOrFail();
         try {
-            $tag->delete();
-            Session::flash('flash_message', 'Tag deleted!');
-            return redirect('admin/tags');
+            $name = $tag->name;
+            $tag->restore();
+            Session::flash('message', $name . ' restored!');
+            return redirect('admin/tags/trash');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withErrors($e->getMessage());
@@ -139,16 +142,18 @@ class TagsController extends Controller
     /**
      * Permanently Remove the specified resource from storage.
      *
-     * @param  Tag  $tag
+     * @param  int  $id
      *
      * @return void
      */
-    public function clean(Tag $tag)
+    public function clean($id)
     {
+        $tag = Tag::withTrashed()->where('id', $id)->firstOrFail();
         try {
-            $tag->delete();
-            Session::flash('flash_message', 'Subject deleted!');
-            return redirect('admin/tags');
+            $name = $tag->name;
+            $tag->forceDelete();
+            Session::flash('message', $name . ' deleted!');
+            return redirect('admin/tags/trash');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withErrors($e->getMessage());
