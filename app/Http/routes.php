@@ -45,6 +45,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
             Route::resource('users', 'UsersController');
 
             Route::get('tags/trash', 'TagsController@trash');
+            Route::post('tags/clean/{id}', 'TagsController@clean');
+            Route::post('tags/restore/{id}', 'TagsController@restore');
         });
         
     });

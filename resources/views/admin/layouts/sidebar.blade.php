@@ -26,9 +26,6 @@
                     <li>
                         <a href="{{ url('/admin/tags/create') }}">Add New</a>
                     </li>
-                    <li>
-                        <a href="{{ url('/admin/tags/trash') }}">Trash</a>
-                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -44,7 +41,7 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
-            @if (Auth::user()->user_type_id === 1)
+            @if (Auth::user()->isAdministrator())
                 <li>
                     <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -53,6 +50,15 @@
                         </li>
                         <li>
                             <a href="{{ url('/admin/users/create') }}">Create</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-trash fa-fw"></i> Trash<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ url('/admin/tags/trash') }}">Tag</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

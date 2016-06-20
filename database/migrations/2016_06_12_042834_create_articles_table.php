@@ -17,16 +17,18 @@ class CreateArticlesTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->integer('subject_id')->unsigned()->index()->nullable();
             $table->string('title', 255);
-            $table->string('slug', 255)->index();
             $table->string('sub_title', 255)->nullable();
+            $table->string('slug', 255)->index();
             $table->text('summary')->nullable();
             $table->text('details')->nullable();
             $table->enum('display', ['Y', 'N'])->default('Y');
+            $table->integer('deleted_by')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('set null');
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 

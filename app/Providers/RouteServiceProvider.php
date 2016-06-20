@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Tag;
+//use App\Models\Tag;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -25,11 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //Source: https://laracasts.com/discuss/channels/general-discussion/laravel-implicit-route-model-binding-with-soft-deleted-data
-        $router->bind('admin/tags', function($tag) {
-            if (Auth::user()->isAdministrator())
-            return Tag::withTrashed()->where('id', $tag)->firstOrFail();
-        });
+        //
         parent::boot($router);
     }
 

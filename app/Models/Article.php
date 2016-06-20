@@ -79,7 +79,7 @@ class Article extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Model\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     /**
@@ -87,7 +87,7 @@ class Article extends Model
      */
     public function subject()
     {
-        return $this->belongsTo('App\Model\Subject');
+        return $this->belongsTo('App\Models\Subject');
     }
 
     /**
