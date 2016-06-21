@@ -124,4 +124,69 @@ class UsersController extends Controller
                 ->withErrors($e->getMessage());
         }
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  User $user
+     *
+     * @return void
+     */
+    public function profile(User $user)
+    {
+        $user_types = UserType::where('id', '>', 1)->lists('type', 'id');
+        return view('admin.users.edit', compact('user', 'user_types'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     *
+     * @return void
+     */
+    public function update_profile(User $user, UserRequest $request)
+    {
+        try {
+            $data = $request->only(['name', 'email', 'user_type_id']);
+            $user->update($data);
+            Session::flash('flash_message', 'User updated!');
+            return redirect('admin/users');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withErrors($e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Show the form for password change.
+     *
+     * @return void
+     */
+    public function password()
+    {
+        return view('admin.users.password');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     *
+     * @return void
+     */
+    public function reset_password(UserRequest $request)
+    {
+        try {
+            $data = $request->only(['name', 'email', 'user_type_id']);
+            //$user->update($data);
+            Session::flash('flash_message', 'User updated!');
+            return redirect('admin/users');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withErrors($e->getMessage())
+                ->withInput();
+        }
+    }
 }

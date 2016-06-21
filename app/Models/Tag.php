@@ -37,18 +37,14 @@ class Tag extends Model
 
         static::creating(function($tag)
         {
-            //$tag->setSlug('test');
-            //$tag->slug = utf8_slug($tag->name);
-            //$tag->created_by = Auth::user()->id;
-            $tag->setCreatedBy(Auth::user()->id);
-            $tag->save();
+            $tag->slug = utf8_slug($tag->name);
+            $tag->created_by = Auth::user()->id;
         });
 
-        /*static::updating(function ($tag)
+        static::updating(function ($tag)
         {
             $tag->slug = utf8_slug($tag->name);
-            $tag->save();
-        });*/
+        });
 
         static::deleting(function($tag)
         {

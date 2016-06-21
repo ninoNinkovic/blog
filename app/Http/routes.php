@@ -39,6 +39,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'Admin::'], f
 
         Route::resource('articles', 'ArticlesController');
 
+        //--------Users Profile Update-----------------
+        Route::get('profile', 'UsersController@profile');
+        Route::post('update_profile', 'UsersController@update_profile');
+
+        Route::get('password', 'UsersController@password');
+        Route::post('reset_password', 'UsersController@reset_password');
+
         //--------Route Group with some Administrative Privileges-----------------
         Route::group(['middleware' => 'administrator'], function()
         {

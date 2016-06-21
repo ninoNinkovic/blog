@@ -16,6 +16,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * Default values for attributes
+     *
+     * @var  array an array with attribute as key and default as value
+     */
+    protected $attributes = [
+        'password',
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -23,6 +32,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Set the password to be hashed when saved
+     *
+     * @param  string $password
+     *
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 
     /**
      * Check the administrative privilege of the user.

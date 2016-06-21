@@ -25,23 +25,23 @@ class CreateUsersTable extends Migration
         $user_types = [
             [
                 'type' => 'Administrator',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
                 'type' => 'Teacher',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
                 'type' => 'Programmer',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
                 'type' => 'Student',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
             ]
         ];
         DB::table('user_types')->insert($user_types);
@@ -51,16 +51,16 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('user_type_id')->unsigned()->index()->nullable();
+            $table->integer('user_type_id')->unsigned()->index();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
 
-            //$table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('cascade');
+            //$table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('restrict');
         });
 
         Schema::table('users', function($table) {
-            $table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('set null');
+            $table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('restrict');
         });
 
         // Create the first user for login

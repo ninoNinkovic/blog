@@ -19,19 +19,68 @@ class Gallery extends Model
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
+    /**
+     * Boot function for using with User Events
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($gallery)
+        {
+            $gallery->slug = utf8_slug($gallery->name);
+            $gallery->created_by = Auth::user()->id;
+        });
+
+        static::updating(function ($gallery)
+        {
+            $gallery->slug = utf8_slug($gallery->name);
+        });
+
+        static::deleting(function($gallery)
+        {
+            $gallery->deleted_by = Auth::user()->id;
+            $gallery->save();
+        });
+
+        static::restoring(function($gallery)
+        {
+            $gallery->deleted_by = null;
+            $gallery->save();
+        });
+    }
+
+    /**
+     * Get the user who create the gallery.
+     */
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by');
+    }
+
+    /**
+     * Get the user who delete the gallery.
+     */
+    public function remover()
+    {
+        return $this->belongsTo('App\Models\User', 'deleted_by');
+    }
+    
+    /**
      * The videos that belong to the gallery.
      */
     public function videos()
     {
         return $this->belongsToMany('App\Models\Video');
     }
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
     
     /**
      * Get all of the tags for the gallery.
